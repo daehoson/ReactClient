@@ -6,7 +6,7 @@ const getNum = (param, defaultValue) => {
         return defaultValue
     }
     return parseInt(param)
-}
+} 
 
 const useCustomMove = () => {
     const navigate = useNavigate()

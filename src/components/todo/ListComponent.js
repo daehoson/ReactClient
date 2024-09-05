@@ -16,9 +16,9 @@ const initState = {
     current:0
 }
 
-function ListComponent(props){
+const ListComponent = () =>{
 
-    const { page, size, moveToList,refresh } = useCustomMove(); // 훅 호출 시 괄호 추가
+    const { page, size, moveToList,refresh, moveToRead } = useCustomMove(); // 훅 호출 시 괄호 추가
     const [serverData, setServerData] = useState(initState);
 
     useEffect(() => {
@@ -47,6 +47,7 @@ function ListComponent(props){
                     <div
                         key={todo.tno}
                         className="w-full min-w-[400px] p-2 m-2 rounded shadow-md"
+                        onClick={()=> moveToRead(todo.tno)}
                     >
                         <div className="flex">
                             <div className="font-extrabold text-2xl p-2 w-1/12">

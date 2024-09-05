@@ -1,24 +1,16 @@
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import ModifyComponent from "../../components/todo/ModiftComponent";
 
-const ModifyPage = ({tno}) => {
+const ModifyPage = () => {
 
-  const navigate = useNavigate()
-
-  const moveToRead = () => {
-
-    navigate({pathname:`/todo/read/${tno}`})
-
-  }
-
-  const moveToList = () => {
-
-    navigate({pathname:`/todo/list`})
-
-  }
+  const {tno} = useParams()
 
   return ( 
-    <div className="text-3xl font-extrabold">
-      Todo 수정 페이지 
+    <div className="p-4 w-full bg-white">
+      <div className="text-3xl font-extrabold">
+        Todo 수정 페이지 
+      </div>  
+      <ModifyComponent tno={tno}></ModifyComponent>
     </div> 
    );
 }

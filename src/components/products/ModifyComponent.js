@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import FetchingModal from "../common/FetchingModal";
-import { API_SERVER_HOST, putOne,getOne } from "../../api/products";
+import { API_SERVER_HOST, putOne,getOne,deleteOne} from "../../api/products";
 import useCustomMove from "../../hooks/useCustomMove";
 import ResultModal from "../common/ResultModal"; // ResultModal 컴포넌트를 임포트
 
@@ -25,7 +25,7 @@ const ModifyComponent = ({pno}) => {
     //결과 모달
     const [result, setResult] = useState(null)
     //이동용 함수
-    const [moveToRead, moveToList] = useCustomMove()
+    const {moveToRead, moveToList} = useCustomMove()
 
     const uploadRef = useRef()
 
@@ -44,6 +44,7 @@ const ModifyComponent = ({pno}) => {
         setProduct({...product})
     }
 
+    // 화면에서만 안보임
     const deleteOldImages = (imageName) =>{
         const resultFileNames = product.uploadFileNames.filter(fileName =>
             fileName !== imageName)
@@ -77,9 +78,19 @@ const ModifyComponent = ({pno}) => {
         })
     }
 
+    const handleClickDelete = () =>{
+        setFetching(true)
+        deleteOne(pno).then(data => {
+            setResult("Deleted")
+            setFetching(false)
+        })
+    }
+
     const closeModal = () => {
         if(result === 'Modified'){
             moveToRead(pno) //조회 화면으로 이동
+        }else if(result === 'Deleted'){
+            moveToList({page:1})
         }
         setResult(null)
     }
@@ -87,6 +98,12 @@ const ModifyComponent = ({pno}) => {
     return(
         <div className="border-2 border-sky-200 mt-10 m-2 p-4">
             {fetching ? <FetchingModal/>:<></>}
+
+            {result ? <ResultModal
+                            title={'${result}'}
+                            content={'처리되었습니다.'}
+                            callbackFn={closeModal}
+                            ></ResultModal>:<></>}
             
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
@@ -163,7 +180,8 @@ const ModifyComponent = ({pno}) => {
             </div>
             <div className="flex justify-end p-4">
                 <button type="button"
-                        className="rounded p-4 m-2 text-xl w-32 text-white bg-red-500">
+                        className="rounded p-4 m-2 text-xl w-32 text-white bg-red-500"
+                        onClick={handleClickDelete}>
                             DELETE
                         </button>
                 <button type="button"
@@ -173,7 +191,8 @@ const ModifyComponent = ({pno}) => {
                             Modify
                         </button>
                 <button type="button"
-                        className="rounded p-4 m-2 text-xl w-32 text-white bg-blue-500">
+                        className="rounded p-4 m-2 text-xl w-32 text-white bg-blue-500"
+                        onClick={()=> moveToList()}>
                             List
                         </button>
             </div>

@@ -78,13 +78,13 @@ const ReadComponent = ({pno}) => {
             <div className="flex justify-end p-4">
                 <button type="button"
                         className="inline-block rounded p-4 m-2 text-xl w-32 text-white bg-red-500"
-                        onClick={() => moveToModify(pno)}
+                        onClick={() => moveToModify(product.pno)}
                         >
                             Modify
                         </button>
                 <button type="button"
                         className="rounded p-4 m-2 text-xl w-32 text-white bg-blue-500"
-                        onClick={moveToList}
+                        onClick={()=>moveToList()}
                         >
                             List
                         </button>

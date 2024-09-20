@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"; // useState 추가
 import useCustomMove from "../../hooks/useCustomMove";
-import { API_SERVER_HOST, getList } from "../../api/products";
+import { API_SERVER_HOST, getList } from "../../api/products"
 import PageComponent from "../common/PageComponent";
 import FetchingModal from "../common/FetchingModal";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initState = {
     dtoList:[],
@@ -20,6 +21,10 @@ const initState = {
 const host = API_SERVER_HOST
 
 const ListComponent = () => {
+
+
+    const {exceptionHandle} = useCustomLogin()
+
     const {moveToList, moveToRead, page, size, refresh} = useCustomMove()
 
     const [serverData, setServerData] = useState(initState)
@@ -31,9 +36,10 @@ const ListComponent = () => {
         setFetching(true)
 
         getList({page,size}).then(data=>{
+            console.log(data)
             setFetching(false)
             setServerData(data)
-        })
+        }).catch(err=>exceptionHandle(err))
         
     }, [page,size,refresh])
     

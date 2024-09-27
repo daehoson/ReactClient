@@ -6,37 +6,39 @@ import { login } from "../../slices/loginSlice";
 import useCustomLogin from "../../hooks/useCustomLogin";
 
 const KakaoRedirectPage = () => {
+    // function KakaoRedirectPage(props){
 
   const [searchParams] = useSearchParams()
 
-//   const {moveToPath} = useCustomLogin()
+  const {moveToPath} = useCustomLogin()
 
-//   const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const authCode = searchParams.get("code")
 
   useEffect(() => {
-    alert(authCode
-        
-    )
+    
     getAccessToken(authCode).then(accessToken => {
-      console.log(accessToken)
 
-    //   getMemberWithAccessToken(accessToken).then(memberInfo => {
+        alert('시작')
 
-    //     console.log("-------------------")
-    //     console.log(memberInfo)
+        alert(accessToken)
 
-    //     dispatch(login(memberInfo))
+        getMemberWithAccessToken(accessToken).then(memberInfo => {
 
-    //     //소셜 회원이 아니라면
-    //     if(memberInfo && !memberInfo.social){
-    //       moveToPath("/")
-    //     }else {
-    //       moveToPath("/member/modify")
-    //     }
+            console.log("-------------------")
+            console.log(memberInfo)
 
-    //   })
+            dispatch(login(memberInfo))
+
+            //소셜 회원이 아니라면
+            if(memberInfo && !memberInfo.social){
+              moveToPath("/")
+            }else {
+              moveToPath("/member/modify")
+            }
+
+        })
       
     })
 
